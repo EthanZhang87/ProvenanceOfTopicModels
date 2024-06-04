@@ -155,6 +155,20 @@ class TopicModel:
             doc_names.append(header)
             self.print_topic_probability_table(pr_t,header, f=f)
 
+    def print_documents2(self, f=sys.stdout):
+        global doc_names 
+        doc_names= []
+        for d,pr_t in enumerate(self.pr_td):
+            header = "%s" % self.data.titles[d]
+            doc_names.append(header)
+            self.print_topic_prob(pr_t,header, f=f)
+    
+    def print_topic_prob(self,pr,header,length=20, f=sys.stdout):
+        topic_pr = [ (w,p) for w,p in enumerate(pr) ]
+        topic_pr.sort(key=lambda x: x[1],reverse=True)
+        
+        maindocs.append(topic_pr)
+
     def em(self):
         """run expectation-maximization"""
         for it in range(max_iterations):
@@ -169,20 +183,23 @@ class TopicModel:
         header = "Topic %d" % x
         self.data.print_word_probability_table(pr_w, header, f=f)
 
-    def print_one_document(self, x, f = sys.stdout):
-        pr_d = self.pr_td[x]
-        header = "%s" % self.data.titles[x]
-        self.print_topic_probability_table(pr_d, header, f=f)
+
 
 
 def singleTopic(id):
     topic_link = StringIO()
     global tm   
     tm.print_one_topic(id, f=topic_link)
-    tm.print_one_document(id, f=topic_link)
     td = tm.prtd()
+    
+   
     t1 = enumerate(td[:,id])
     sort_t1 = sorted(t1,key=lambda x: x[1],reverse=True)
+    print("========================================", file = topic_link)
+    print("== Topic: %d | {%20s}" % (id,top3[id]) +"<br>\n", file = topic_link)
+    print("========================================" +"<br>\n", file = topic_link)
+    for d,pr in sort_t1[:10]:
+        print("%20s | %.4f%%" % (doc_names[d],100*pr) +"<br>\n", file = topic_link)
 
     topic_link.seek(0)
     print_topic = topic_link.read()
@@ -204,6 +221,24 @@ def topThreeProb():
 
     return tm.print_pr_wt()
 
+
+def printDocuments():
+    conn = sql.connect('article_db.db', check_same_thread=False)
+    c = conn.cursor()
+    c.execute("SELECT article_name, article_id, article_text, article_link FROM " + download.tablename)
+    articles = c.fetchall()
+    
+    data = DataSet(count_limit=count_limit, dirname = articles)
+    topic_link = StringIO()
+
+    global tm
+
+    tm.print_documents(f=topic_link)
+
+    topic_link.seek(0)
+    print_topic = topic_link.read()
+    topic_link.close()
+    return print_topic
 
 # load dataset
 def main():
@@ -251,7 +286,7 @@ def main():
     tm = TopicModel(data, topic_count=topic_count)
     ll = tm.em()
     tm.print_topics(f=topic_link)
-    tm.print_documents(f=topic_link)
+    tm.print_documents2(f=topic_link)
     print("final log likelihood = %.8f" % ll +"<br>\n", file = topic_link)
     
     td = tm.prtd()

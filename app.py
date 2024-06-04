@@ -38,7 +38,16 @@ def one_topic(id):
     topic_data = topic.singleTopic(id)
     topic_data = Markup(topic_data)
 
-    return render_template("singleTopic.html", t=topic_data)
+    return render_template("singleTopic.html", t=topic_data, i = id)
+
+@app.route('/documents')
+def get_documents():
+    global topic
+    documents = topic.printDocuments()
+    documents = Markup(documents)
+
+    return render_template("returnDocuments.html", d = documents)
+
 
 @app.route('/topic')
 def topics():
