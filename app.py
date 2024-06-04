@@ -32,6 +32,14 @@ def process():
     articles = download.checktable(a_name)
     return render_template("articles.html", rows = articles, article_length = len(articles), table_len = (len(articles))/3)
 
+@app.route('/topic/<int:id>', methods = ['GET', 'POST'])
+def one_topic(id):
+    global topics
+    topic_data = topic.singleTopic(id)
+    topic_data = Markup(topic_data)
+
+    return render_template("singleTopic.html", t=topic_data)
+
 @app.route('/topic')
 def topics():
     global topics
@@ -40,9 +48,11 @@ def topics():
     # Convert plot to image
     plot_to_img()
 
+    topThree = topic.topThreeProb()
+
     topchart = Markup(' <img src = "static/topicchart.png"> ')
     docchart = Markup(' <img src = "static/docchart.png"> ')
-    return render_template("topic.html", t=topics, top_img = topchart, doc_img = docchart)
+    return render_template("topic.html", t=topics, top_img = topchart, doc_img = docchart, t3 = topThree)
 
 @app.route('/text', methods=['POST'])
 def text():

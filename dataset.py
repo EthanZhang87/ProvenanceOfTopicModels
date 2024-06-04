@@ -134,7 +134,48 @@ class DataSet:
             print("%20s | %.4f%%" % (word,100*pr) +"<br>\n", file = f)
         #print_chart(top_x, word_pr)
         return top_three
+    
+    def print_word_probability_table2(self,pr,header,length=20, f=sys.stdout):
+        word_pr = [ (w,p) for w,p in enumerate(pr) ]
+        word_pr.sort(key=lambda x: x[1],reverse=True)
+        top_three = ""
+    
+        b = []
+        for w, pr in word_pr[0:3]:
+            word = self.words[w]
+            b.append(word)
+        topic.topics_list.append(b)
+        
+        for w, pr in word_pr[0:1]:
+            word = self.words[w]
+            a = []
+            a.append(word)
+            a.append(pr)
+            (topic.wp1).append(a)
+            top_three += word + " | "
+        
+        for w, pr in word_pr[1:2]:
+            word = self.words[w]
+            a = []
+            a.append(word)
+            a.append(pr)
+            (topic.wp2).append(a)
+            top_three += word + " | "
+        
+        for w, pr in word_pr[2:3]:
+            word = self.words[w]
+            a = []
+            a.append(word)
+            a.append(pr)
+            (topic.wp3).append(a)
+            top_three += word + " | "
+        
 
+        for w,pr in word_pr[:length]:
+            word = self.words[w]
+
+        return top_three
+    
     
     def print_topic_probability_table(self,pr,header,length=20, f=sys.stdout):
         """print out a topic probability table.
@@ -145,7 +186,8 @@ class DataSet:
         topic_pr = [ (w,p) for w,p in enumerate(pr) ]
         topic_pr.sort(key=lambda x: x[1],reverse=True)
         for t,pr in topic_pr[:length]:
-            print("%20d | %.4f%%" % (t,100*pr) +"<br>\n", file = f)
+            title = self.titles[t]
+            print("%20s | %.4f%%" % (title,100*pr) +"<br>\n", file = f)
          
 
     def print_common_words(self, f = sys.stdout):

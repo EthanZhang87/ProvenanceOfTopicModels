@@ -89,6 +89,18 @@ class TopicModel:
             doc_ll = np.log(doc_pr.sum(axis=0))
             ll += doc_ll@vector
         return ll/N
+    
+    def print_pr_wt(self):
+        all_topics_top3 = []
+
+        num_topics = 10
+        for topic_id in range(num_topics):
+            topic_pr = [(w, self.pr_wt[topic_id][w]) for w in range(len(self.pr_wt[topic_id]))]
+            topic_pr.sort(key = lambda x: x[1], reverse=True)
+            top3 = topic_pr[:3]
+            all_topics_top3.append(top3)
+
+        return all_topics_top3
 # create function to generate top 3 words & pass into print word prob table
 
     def print_topics(self, f=sys.stdout):
@@ -96,7 +108,7 @@ class TopicModel:
         top3 = []
         for t,pr_w in enumerate(self.pr_wt):
             header = "topic %d" % t
-            top3.append(self.data.print_word_probability_table(pr_w,header, f=f))
+            top3.append(self.data.print_word_probability_table2(pr_w,header, f=f))
     
             #create new function taking in topic index, and return top 3 words
             
@@ -151,6 +163,47 @@ class TopicModel:
             ll = self._log_likelihood()
             print("iteration %d/%d: ll = %.4f" % (it+1,max_iterations,ll))
         return ll
+    
+    def print_one_topic(self, x, f=sys.stdout):
+        pr_w = self.pr_wt[x]
+        header = "Topic %d" % x
+        self.data.print_word_probability_table(pr_w, header, f=f)
+
+    def print_one_document(self, x, f = sys.stdout):
+        pr_d = self.pr_td[x]
+        header = "%s" % self.data.titles[x]
+        self.print_topic_probability_table(pr_d, header, f=f)
+
+
+def singleTopic(id):
+    topic_link = StringIO()
+    global tm   
+    tm.print_one_topic(id, f=topic_link)
+    tm.print_one_document(id, f=topic_link)
+    td = tm.prtd()
+    t1 = enumerate(td[:,id])
+    sort_t1 = sorted(t1,key=lambda x: x[1],reverse=True)
+
+    topic_link.seek(0)
+    print_topic = topic_link.read()
+    topic_link.close()
+    return print_topic
+
+
+def topThreeProb():
+    conn = sql.connect('article_db.db', check_same_thread=False)
+    c = conn.cursor()
+
+    c.execute("SELECT article_name, article_id, article_text, article_link FROM " + download.tablename)
+    articles = c.fetchall()
+    
+    data = DataSet(count_limit=count_limit, dirname = articles)
+    topic_link = StringIO()
+
+    global tm
+
+    return tm.print_pr_wt()
+
 
 # load dataset
 def main():
@@ -203,14 +256,14 @@ def main():
     
     td = tm.prtd()
     
-    for i in list(range(10)):
-        t1 = enumerate(td[:,i])
-        sort_t1 = sorted(t1,key=lambda x: x[1],reverse=True)
-        print("========================================", file = topic_link)
-        print("== Topic: %d | {%20s}" % (i,top3[i]) +"<br>\n", file = topic_link)
-        print("========================================" +"<br>\n", file = topic_link)
-        for d,pr in sort_t1[:10]:
-            print("%20s | %.4f%%" % (doc_names[d],100*pr) +"<br>\n", file = topic_link)
+    #for i in list(range(10)):
+        #t1 = enumerate(td[:,i])
+        #sort_t1 = sorted(t1,key=lambda x: x[1],reverse=True)
+        #print("========================================", file = topic_link)
+        #print("== Topic: %d | {%20s}" % (i,top3[i]) +"<br>\n", file = topic_link)
+        #print("========================================" +"<br>\n", file = topic_link)
+        #for d,pr in sort_t1[:10]:
+            #print("%20s | %.4f%%" % (doc_names[d],100*pr) +"<br>\n", file = topic_link)
     
     topic_link.seek(0)
     print_topic = topic_link.read()
