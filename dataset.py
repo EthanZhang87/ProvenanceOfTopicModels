@@ -126,6 +126,8 @@ class DataSet:
             (topic.wp3).append(a)
             top_three += word + " | "
         
+        
+        
         print(header + " { " + "%20s " % (top_three) + "}" + "<br>\n", file = f)
         #print("==", header +"<br>\n", file = f)
         print("========================================" +"<br>\n", file = f)
@@ -133,6 +135,44 @@ class DataSet:
             word = self.words[w]
             print("%20s | %.4f%%" % (word,100*pr) +"<br>\n", file = f)
         #print_chart(top_x, word_pr)
+        return top_three
+    
+    def print_top_three_words(self,pr,length=20, f=sys.stdout):
+        word_pr = [ (w,p) for w,p in enumerate(pr) ]
+        word_pr.sort(key=lambda x: x[1],reverse=True)
+        top_three = []
+        
+        b = []
+        for w, pr in word_pr[0:3]:
+            word = self.words[w]
+            b.append(word)
+        topic.topics_list.append(b)
+        
+        for w, pr in word_pr[0:1]:
+            word = self.words[w]
+            a = []
+            a.append(word)
+            a.append(pr)
+            (topic.wp1).append(a)
+            top_three.append(word)
+        
+        for w, pr in word_pr[1:2]:
+            word = self.words[w]
+            a = []
+            a.append(word)
+            a.append(pr)
+            (topic.wp2).append(a)
+            top_three.append(word)
+        
+        for w, pr in word_pr[2:3]:
+            word = self.words[w]
+            a = []
+            a.append(word)
+            a.append(pr)
+            (topic.wp3).append(a)
+            top_three.append(word)
+        
+        
         return top_three
     
     def print_word_probability_table2(self,pr,header,length=20, f=sys.stdout):

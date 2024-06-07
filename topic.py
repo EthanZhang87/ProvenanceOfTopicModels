@@ -21,7 +21,7 @@ class TopicModel:
         self.topic_count = topic_count
         self.word_count = data.word_count
         self.data = data
-
+        
         if seed is None:
             seed = np.random.randint(10000)
         print("random number seed: %d" % seed)
@@ -34,6 +34,7 @@ class TopicModel:
         # sample a random word-given-topic distribution
         alpha = [2]*self.word_count
         self.pr_wt = np.random.dirichlet(alpha,self.topic_count)
+
 
     def _learn(self,topics):
         """learn parameters from completed data"""
@@ -101,6 +102,18 @@ class TopicModel:
             all_topics_top3.append(top3)
 
         return all_topics_top3
+    
+    def print_pr_td(self):
+        all_topics_top3 = []
+
+        num_topics = len(self.pr_td)  # Get the number of topics dynamically
+        for topic_id in range(num_topics):
+            topic_pr = [(w, self.pr_td[topic_id][w]) for w in range(len(self.pr_td[topic_id]))]
+            topic_pr.sort(key=lambda x: x[1], reverse=True)
+            top3 = topic_pr[:3]
+            all_topics_top3.append(top3)
+
+        return all_topics_top3
 # create function to generate top 3 words & pass into print word prob table
 
     def print_topics(self, f=sys.stdout):
@@ -146,6 +159,17 @@ class TopicModel:
             
         for t,pr in topic_pr[:length]:
             print("{%20s} | %.4f%%" % (top3[t],100*pr) +"<br>\n", file = f)
+
+    def print_topic_probability_table2(self,pr,length=20, f=sys.stdout):
+        topic_pr = [ (w,p) for w,p in enumerate(pr) ]
+        topic_pr.sort(key=lambda x: x[1],reverse=True)
+        topThreeDocuments = []
+            
+        for t,pr in topic_pr[:length]:
+            topThreeDocuments.append(top3[t])
+
+        return topThreeDocuments
+
          
     def print_documents(self, f=sys.stdout):
         global doc_names 
@@ -154,6 +178,21 @@ class TopicModel:
             header = "%s" % self.data.titles[d]
             doc_names.append(header)
             self.print_topic_probability_table(pr_t,header, f=f)
+
+
+    def print_document_topics(self, f=sys.stdout):
+        newArr = []
+        for d, pr_t in enumerate(self.pr_td):
+            newArr.append(self.print_topic_probability_table2(pr_t, f=f))
+
+        return newArr
+
+    def getDocNames(self, f=sys.stdout):
+        docNames = []
+        for d, pr_t in enumerate(self.pr_td):
+            docNames.append(self.data.titles[d])
+
+        return docNames
 
     def print_documents2(self, f=sys.stdout):
         global doc_names 
@@ -183,7 +222,26 @@ class TopicModel:
         header = "Topic %d" % x
         self.data.print_word_probability_table(pr_w, header, f=f)
 
+    def print_one_document(self, x, f=sys.stdout):
+        # Check if the specified index x is within the valid range
+        if x < 0 or x >= len(self.pr_td):
+            raise ValueError("Index out of range")
 
+        doc_names = []
+
+        # Loop over the documents
+        for d, pr_t in enumerate(self.pr_td):
+            # Only process the document at index x
+            if d == x:
+                header = "%s" % self.data.titles[d]
+                doc_names.append(header)
+                self.print_topic_probability_table(pr_t, header, f=f)
+        
+        return doc_names
+
+    def get_top_three_words(self, x, f=sys.stdout):
+        pr_w = self.pr_wt[x]
+        return self.data.print_top_three_words(pr_w, f=f)
 
 
 def singleTopic(id):
@@ -206,6 +264,22 @@ def singleTopic(id):
     topic_link.close()
     return print_topic
 
+def printOneDocument(id):
+    topic_link = StringIO()
+
+    global tm
+    
+    tm.print_one_document(id, f=topic_link)
+
+    topic_link.seek(0)
+    print_topic = topic_link.read()
+    topic_link.close()
+    return print_topic
+
+def docTopic():
+    topic_link = StringIO
+    global tm
+    return tm.print_document_topics(f=topic_link)
 
 def topThreeProb():
     conn = sql.connect('article_db.db', check_same_thread=False)
@@ -218,17 +292,22 @@ def topThreeProb():
     topic_link = StringIO()
 
     global tm
-
+    
     return tm.print_pr_wt()
+
+def topThreeDocProb():
+    global tm
+    
+    return tm.print_pr_td()
+
+def returnDocName():
+    topic_link = StringIO()
+
+    global tm
+    return tm.getDocNames(f=topic_link)
 
 
 def printDocuments():
-    conn = sql.connect('article_db.db', check_same_thread=False)
-    c = conn.cursor()
-    c.execute("SELECT article_name, article_id, article_text, article_link FROM " + download.tablename)
-    articles = c.fetchall()
-    
-    data = DataSet(count_limit=count_limit, dirname = articles)
     topic_link = StringIO()
 
     global tm
@@ -239,6 +318,19 @@ def printDocuments():
     print_topic = topic_link.read()
     topic_link.close()
     return print_topic
+
+
+
+
+def getTopThreeWords():
+    topic_link = StringIO()
+    global tm
+    topThreeWords = []
+    for x in range(10):
+        topThreeWords.append(tm.get_top_three_words(x, topic_link))
+
+    return topThreeWords
+
 
 # load dataset
 def main():

@@ -22,12 +22,32 @@
                 <a href="{{ url_for('one_topic', id = x) }}">Topic {{x}}</a>
                 <img src="{{ url_for('static', filename='images/red.png') }}" height="10" width="{{t3[x][0][1]*100}}%">
                 <img src="{{ url_for('static', filename='images/green.png') }}" height="10" width="{{t3[x][1][1]*100}}%">
-                <img src="{{ url_for('static', filename='images/blue.png') }}" height="10" width="{{t3[x][2][1]*100}}%">
+                <img src="{{ url_for('static', filename='images/blue.png') }}" height="10" width="{{t3[x][2][1]*100}}%"><br>
+
+                <span style="color: red;">{{ t3words[x][0] }}</span>
+                <span style="color: green;">{{ t3words[x][1] }}</span>
+                <span style="color: blue;">{{ t3words[x][2] }}</span>
                 <br>
                 <hr>
             {% endfor %}
+            
+        </div>
+        <div>
+            {% for x in range(count) %}
+                <a href="{{ url_for('get_one_document', id=x)}}">Document: {{names[x]}} </a>
+                <img src="{{ url_for('static', filename='images/red.png') }}" height="10" width="{{t3Doc[x][0][1]*30}}%">
+                <img src="{{ url_for('static', filename='images/green.png') }}" height="10" width="{{t3Doc[x][1][1]*30}}%">
+                <img src="{{ url_for('static', filename='images/blue.png') }}" height="10" width="{{t3Doc[x][2][1]*30}}%"><br>
+                <span style="color: red;">{{ docTopics[x][0] }}</span>
+                <span style="color: green;">{{ docTopics[x][1] }}</span>
+                <span style="color: blue;">{{ docTopics[x][2] }}</span>
+                <br>
+                <hr>
+                
+            {% endfor %}
             <a href="{{ url_for('get_documents') }}">View Documents</a>
         </div>
+
         {{top_img}}
         {{doc_img}}
     </body>

@@ -48,20 +48,31 @@ def get_documents():
 
     return render_template("returnDocuments.html", d = documents)
 
+@app.route('/documents/<int:id>', methods = ['GET', 'POST'])
+def get_one_document(id):
+     global topics
+     document = topic.printOneDocument(id)
+     document = Markup(document)
+
+     return render_template("singleDocument.html", doc = document)
+
 
 @app.route('/topic')
 def topics():
     global topics
     topics = topic.main()
     topics = Markup(topics)
+    docNames = topic.returnDocName()
     # Convert plot to image
     plot_to_img()
-
+    t3Words = topic.getTopThreeWords()
     topThree = topic.topThreeProb()
+    topThreeDoc = topic.topThreeDocProb()
+    topic_list = topic.docTopic()
 
     topchart = Markup(' <img src = "static/topicchart.png"> ')
     docchart = Markup(' <img src = "static/docchart.png"> ')
-    return render_template("topic.html", t=topics, top_img = topchart, doc_img = docchart, t3 = topThree)
+    return render_template("topic.html", t=topics, docTopics = topic_list, top_img = topchart, count = len(topThreeDoc), doc_img = docchart, names = docNames,  t3 = topThree, t3Doc = topThreeDoc, t3words = t3Words)
 
 @app.route('/text', methods=['POST'])
 def text():
@@ -75,4 +86,4 @@ def text():
     return render_template("text.html", t = topics, a_text = highlight_text)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
