@@ -137,44 +137,49 @@ class DataSet:
         #print_chart(top_x, word_pr)
         return top_three
     
-    def print_top_three_words(self,pr,length=20, f=sys.stdout):
-        word_pr = [ (w,p) for w,p in enumerate(pr) ]
-        word_pr.sort(key=lambda x: x[1],reverse=True)
-        top_three = []
-        
+    def print_top_five_words(self, pr, length=20, f=sys.stdout):
+        word_pr = [(w, p) for w, p in enumerate(pr)]
+        word_pr.sort(key=lambda x: x[1], reverse=True)
+        top_five = []
+
         b = []
-        for w, pr in word_pr[0:3]:
+        for w, pr in word_pr[:]:
             word = self.words[w]
             b.append(word)
         topic.topics_list.append(b)
+
+        for i in range(10):
+            if i < len(word_pr):
+                w, pr = word_pr[i]
+                word = self.words[w]
+                a = []
+                a.append(word)
+                a.append(pr)
+                if i == 0:
+                    (topic.wp1).append(a)
+                elif i == 1:
+                    (topic.wp2).append(a)
+                elif i == 2:
+                    (topic.wp3).append(a)
+                elif i == 3:
+                    (topic.wp4).append(a)
+                elif i == 4:
+                    (topic.wp5).append(a)
+                elif i == 5:
+                    (topic.wp6).append(a)
+                elif i == 6:
+                    (topic.wp7).append(a)
+                elif i == 7:
+                    (topic.wp8).append(a)
+                elif i == 8:
+                    (topic.wp9).append(a)
+                elif i == 9:
+                    (topic.wp10).append(a)
+                top_five.append(word)
+
+        return top_five
+
         
-        for w, pr in word_pr[0:1]:
-            word = self.words[w]
-            a = []
-            a.append(word)
-            a.append(pr)
-            (topic.wp1).append(a)
-            top_three.append(word)
-        
-        for w, pr in word_pr[1:2]:
-            word = self.words[w]
-            a = []
-            a.append(word)
-            a.append(pr)
-            (topic.wp2).append(a)
-            top_three.append(word)
-        
-        for w, pr in word_pr[2:3]:
-            word = self.words[w]
-            a = []
-            a.append(word)
-            a.append(pr)
-            (topic.wp3).append(a)
-            top_three.append(word)
-        
-        
-        return top_three
-    
     def print_word_probability_table2(self,pr,header,length=20, f=sys.stdout):
         word_pr = [ (w,p) for w,p in enumerate(pr) ]
         word_pr.sort(key=lambda x: x[1],reverse=True)

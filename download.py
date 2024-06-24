@@ -32,6 +32,7 @@ def checktable(a_name):
     else:
         c.execute('CREATE TABLE IF NOT EXISTS ' + tablename + ' (article_id integer, article_name text, article_text text, article_link text)')
         conn.commit()
+
         return download_articles(a_name)
         
 def add_data(title, id, mainid, text, link):
@@ -40,6 +41,8 @@ def add_data(title, id, mainid, text, link):
     conn.commit()
 
 def download_articles(article_name):
+    global contentList
+    contentList = []
     f_links = StringIO()
     # process the data using Python code
     #import pdb; pdb.set_trace()
@@ -105,6 +108,7 @@ def download_articles(article_name):
         # get the title and text from the page
         title = page.title
         text = page.content
+        contentList.append(text)
         # remove non-alphabetic characters from text
         clean_text = re.sub('[^A-Za-z]+', ' ', text)
         a_link = "https://en.wikipedia.org/w/index.php?curid=" + pageid
@@ -114,6 +118,8 @@ def download_articles(article_name):
             f.write("title: %s\n" % title)
             f.write("id: %s\n" % pageid)
             f.write(clean_text)
+
+
     
     c.execute("SELECT article_name, article_id, article_text, article_link FROM article_" + main_page_id)
     return c.fetchall()

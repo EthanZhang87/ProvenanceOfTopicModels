@@ -28,7 +28,9 @@ def hello():
 
 @app.route('/process', methods=['POST'])
 def process():
+    global counter
     a_name = request.form.get('data')
+    counter = request.form.get('count')
     articles = download.checktable(a_name)
     return render_template("articles.html", rows = articles, article_length = len(articles), table_len = (len(articles))/3)
 
@@ -53,8 +55,9 @@ def get_one_document(id):
      global topics
      document = topic.printOneDocument(id)
      document = Markup(document)
+     contents = download.contentList[id]
 
-     return render_template("singleDocument.html", doc = document)
+     return render_template("singleDocument.html", doc = document, contentView = contents)
 
 
 @app.route('/topic')
@@ -65,14 +68,22 @@ def topics():
     docNames = topic.returnDocName()
     # Convert plot to image
     plot_to_img()
+
     t3Words = topic.getTopThreeWords()
     topThree = topic.topThreeProb()
     topThreeDoc = topic.topThreeDocProb()
     topic_list = topic.docTopic()
 
+
+    topic_colors = ('#DAF7A6', '#FB2C00', '#00FB1B', '#FBAB00', '#000000', '#F700FF', '#001BFF','#00FFC1', '#F3FF00', '#00C9FF')
+    firstTenTopics = tuple(tuple(topic_list[1]))
+    
+    topic_colors_list = dict(zip(firstTenTopics, topic_colors))
+    #import pdb; pdb.set_trace()
     topchart = Markup(' <img src = "static/topicchart.png"> ')
     docchart = Markup(' <img src = "static/docchart.png"> ')
-    return render_template("topic.html", t=topics, docTopics = topic_list, top_img = topchart, count = len(topThreeDoc), doc_img = docchart, names = docNames,  t3 = topThree, t3Doc = topThreeDoc, t3words = t3Words)
+
+    return render_template("topic.html", t=topics, colorsList = topic_colors_list, docTopics = topic_list, top_img = topchart, count = len(topThreeDoc), doc_img = docchart, names = docNames,  t3 = topThree, t3Doc = topThreeDoc, t3words = t3Words, numListed = int(counter))
 
 @app.route('/text', methods=['POST'])
 def text():
