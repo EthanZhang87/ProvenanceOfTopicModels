@@ -57,7 +57,7 @@ def get_one_document(id):
      document = Markup(document)
      contents = download.contentList[id]
 
-    import pdb; pdb.set_trace()
+
      return render_template("singleDocument.html", doc = document, contentView = contents)
 
 
