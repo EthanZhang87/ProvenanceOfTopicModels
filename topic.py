@@ -292,7 +292,6 @@ def topThreeProb():
 
     c.execute("SELECT article_name, article_id, article_text, article_link FROM " + download.tablename)
     articles = c.fetchall()
-    
     data = DataSet(count_limit=count_limit, dirname = articles)
     topic_link = StringIO()
 
