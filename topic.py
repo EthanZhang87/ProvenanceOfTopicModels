@@ -92,16 +92,17 @@ class TopicModel:
         return ll/N
     
     def print_pr_wt(self):
-        all_topics_top3 = []
+        all_topics_top10 = []
 
-        num_topics = 10
+        num_topics = len(self.pr_wt)  # Dynamically determine the number of topics
         for topic_id in range(num_topics):
             topic_pr = [(w, self.pr_wt[topic_id][w]) for w in range(len(self.pr_wt[topic_id]))]
-            topic_pr.sort(key = lambda x: x[1], reverse=True)
-            top3 = topic_pr[:3]
-            all_topics_top3.append(top3)
+            topic_pr.sort(key=lambda x: x[1], reverse=True)
+            top10 = topic_pr[:10]  # Select the top 10 words
+            all_topics_top10.append(top10)
 
-        return all_topics_top3
+        return all_topics_top10
+
     
     def print_pr_td(self):
         all_topics_top3 = []
@@ -110,7 +111,7 @@ class TopicModel:
         for topic_id in range(num_topics):
             topic_pr = [(w, self.pr_td[topic_id][w]) for w in range(len(self.pr_td[topic_id]))]
             topic_pr.sort(key=lambda x: x[1], reverse=True)
-            top3 = topic_pr[:3]
+            top3 = topic_pr[:10]
             all_topics_top3.append(top3)
 
         return all_topics_top3
@@ -241,7 +242,7 @@ class TopicModel:
 
     def get_top_three_words(self, x, f=sys.stdout):
         pr_w = self.pr_wt[x]
-        return self.data.print_top_three_words(pr_w, f=f)
+        return self.data.print_top_five_words(pr_w, f=f)
 
 
 def singleTopic(id):
@@ -268,6 +269,10 @@ def printOneDocument(id):
     topic_link = StringIO()
 
     global tm
+
+    
+
+    #import pdb; pdb.set_trace()
     
     tm.print_one_document(id, f=topic_link)
 
@@ -337,10 +342,24 @@ def main():
     global wp1
     global wp2
     global wp3
+    global wp4
+    global wp5
+    global wp6
+    global wp7
+    global wp8
+    global wp9
+    global wp10
     wp1 = []
     wp2 = []
     wp3 = []
-    
+    wp4 = []
+    wp5 = []
+    wp6 = []
+    wp7 = []
+    wp8 = []
+    wp9 = []
+    wp10 = []
+
     global tp1
     global tp2
     global tp3
