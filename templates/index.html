@@ -19,10 +19,11 @@
         function sendData() {
             var value = document.getElementById('input').value;
             var count = document.getElementById('count').value;
+
             $.ajax({
                 url: '/process',
                 type: 'POST',
-                data: { 'data': value, 'count': count },
+                data: { 'data': value, 'count': count},
                 success: function(response) {
                     document.getElementById('output').innerHTML = response;
                 },

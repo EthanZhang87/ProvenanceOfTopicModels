@@ -15,10 +15,12 @@ import pandas as pd
 conn = sql.connect('article_db.db', check_same_thread=False)
 c = conn.cursor()
 c.execute('CREATE TABLE IF NOT EXISTS articles (article_id integer, article_name text, article_text text, article_link text)')
+c.execute('CREATE TABLE IF NOT EXISTS documents (article_title text, article_content text)')
 conn.commit()
 
 
 def checktable(a_name):
+    global main_page_id
     main = wp.page(a_name,auto_suggest=False)
     main_page_id = main.pageid
     global tablename
@@ -40,9 +42,25 @@ def add_data(title, id, mainid, text, link):
     c.execute('INSERT INTO ' + tablename + ' (article_id, article_name, article_text, article_link) VALUES (?,?,?,?)', (id, title, text, link))
     conn.commit()
 
+def create_documents_table(mainid):
+    tablename = "documents_" + mainid
+    c.execute('CREATE TABLE IF NOT EXISTS ' + tablename + ' (article_title text, article_content text)')
+    conn.commit()
+
+def add_data2(title, content, mainid):
+    tablename = "documents_" + mainid 
+    c.execute('INSERT INTO ' + tablename + ' (article_title, article_content) VALUES (?,?)', (title, content))
+    conn.commit()
+
 def download_articles(article_name):
     global contentList
+    global main_pages
+    global references
+    global main_page_id
+ 
     contentList = []
+    main_pages = []
+    references = []
     f_links = StringIO()
     # process the data using Python code
     #import pdb; pdb.set_trace()
@@ -56,6 +74,8 @@ def download_articles(article_name):
     main_page_id = main.pageid
     artdir = "data/" + main_page_id
     os.makedirs(artdir, exist_ok=True)
+
+    create_documents_table(main_page_id)
     
     
     # get page id from mainpage here
@@ -88,6 +108,7 @@ def download_articles(article_name):
         # try to download the page
         try:
             page = wp.page(link,auto_suggest=False,preload=False)
+
         except wp.exceptions.PageError:
             print("    page not found, skipping")
             continue
@@ -107,8 +128,10 @@ def download_articles(article_name):
 
         # get the title and text from the page
         title = page.title
-        text = page.content
+        main_pages.append(title)
+        text = page.content.replace("\n", "<br>").replace("== References ==", " ")
         contentList.append(text)
+        add_data2(title, text, main_page_id)
         # remove non-alphabetic characters from text
         clean_text = re.sub('[^A-Za-z]+', ' ', text)
         a_link = "https://en.wikipedia.org/w/index.php?curid=" + pageid

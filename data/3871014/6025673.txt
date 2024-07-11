@@ -1,0 +1,3 @@
+title: Axial symmetry
+id: 6025673
+Axial symmetry is symmetry around an axis an object is axially symmetric if its appearance is unchanged if rotated around an axis For example a baseball bat without trademark or other design or a plain white tea saucer looks the same if it is rotated by any angle about the line passing lengthwise through its center so it is axially symmetric br Axial symmetry can also be discrete with a fixed angle of rotation n for n fold symmetry br br br See also br Axiality geometry br Circular symmetry br Reflection symmetry br Rotational symmetry has a more general discussion br Chiral symmetry describes the use in quantum mechanics br br br 

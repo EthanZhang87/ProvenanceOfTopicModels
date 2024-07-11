@@ -29,8 +29,10 @@ def hello():
 @app.route('/process', methods=['POST'])
 def process():
     global counter
+    global topicId
     a_name = request.form.get('data')
     counter = request.form.get('count')
+    topicId = request.form.get('topicId')
     articles = download.checktable(a_name)
     return render_template("articles.html", rows = articles, article_length = len(articles), table_len = (len(articles))/3)
 
@@ -52,13 +54,69 @@ def get_documents():
 
 @app.route('/documents/<int:id>', methods = ['GET', 'POST'])
 def get_one_document(id):
+     conn = sql.connect('article_db.db', check_same_thread=False)
+     c = conn.cursor()
      global topics
      document = topic.printOneDocument(id)
      document = Markup(document)
-     contents = download.contentList[id]
+     #contents = download.contentList[id].replace("\n", "<br>")
+     #title = download.titles[id]
+     #content = download.contentList[id]
+     c.execute("SELECT article_title, article_content FROM documents_" + download.main_page_id)
+     results = c.fetchall()
+     content = results[id]
+     title = content[0]
+     docContent = content[1]
+     topicID = request.form.get('data')
+     word = "polygon"
+
+     string_of_words = ""
+
+     for x in docContent[1]:
+        if x == "polygon":
+            i = docContent[1].index(x)
+            string_of_words += docContent[i-50: i]
+            string_of_words += docContent[i: i+50]
+    
 
 
-     return render_template("singleDocument.html", doc = document, contentView = contents)
+
+     try:
+        highlight = topic.highlight_word2(id, docContent, int(topicID))
+     except:
+        highlight = docContent
+     highlight = Markup(highlight)
+
+    
+
+
+     return render_template("singleDocument.html", doc = document, title = title, contentView = highlight, stringOfWords = string_of_words)
+
+
+@app.route('/documents/<int:id>/<int:tid>', methods = ['GET', 'POST'])
+def get_one_document2(id, tid):
+     conn = sql.connect('article_db.db', check_same_thread=False)
+     c = conn.cursor()
+     global topics
+     document = topic.printOneDocument(id)
+     document = Markup(document)
+     #contents = download.contentList[id].replace("\n", "<br>")
+     #title = download.titles[id]
+     #content = download.contentList[id]
+     c.execute("SELECT article_title, article_content FROM documents_" + download.main_page_id)
+     results = c.fetchall()
+     content = results[id]
+     title = content[0]
+     docContent = content[1]
+
+
+     highlight = topic.highlight_word2(id, docContent, tid)
+     highlight = Markup(highlight)
+
+    
+
+
+     return render_template("singleDocument.html", doc = document, title = title, contentView = highlight )
 
 
 @app.route('/topic')

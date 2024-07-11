@@ -5,6 +5,7 @@ import sys
 import sqlite3 as sql
 import download
 import app
+import re
 from matplotlib import pyplot as plt
 import matplotlib
 matplotlib.use('agg')
@@ -118,6 +119,8 @@ class TopicModel:
 # create function to generate top 3 words & pass into print word prob table
 
     def print_topics(self, f=sys.stdout):
+        global firstWord
+        firstWord = self.pr_wt[0]
         global top3
         top3 = []
         for t,pr_w in enumerate(self.pr_wt):
@@ -219,6 +222,7 @@ class TopicModel:
         return ll
     
     def print_one_topic(self, x, f=sys.stdout):
+        
         pr_w = self.pr_wt[x]
         header = "Topic %d" % x
         self.data.print_word_probability_table(pr_w, header, f=f)
@@ -348,6 +352,7 @@ def main():
     global wp8
     global wp9
     global wp10
+    global topic_link
     wp1 = []
     wp2 = []
     wp3 = []
@@ -393,7 +398,7 @@ def main():
 
     # topic model, run EM and print the learned topics
     global tm
-    tm = TopicModel(data, topic_count=topic_count)
+    tm = TopicModel(data, topic_count=topic_count, seed=0)
     ll = tm.em()
     tm.print_topics(f=topic_link)
     tm.print_documents2(f=topic_link)
@@ -434,7 +439,201 @@ def highlight_word(doc_index, article_text, t_index):
         new_word = '<mark style="background: %s "> %s </mark>' % (color + "BF", w)
         new_text.append(new_word)
     return " ".join(new_text) 
+
+def remove_spaces_around_char(text, char):
+    # Remove one space before the character
+    text = re.sub(r'(\S)\s' + re.escape(char), r'\1' + char, text)
+    # Remove one or more spaces after the character
+    text = re.sub(re.escape(char) + r'\s(\S)', char + r'\1', text)
+    return text
+
+def process_word(word, doc_index, t_index):
+    global tm
+    cmap = colormaps.get_cmap("YlGnBu")
+    if word not in tm.data.word_index:
+        return word
+    word_index = tm.data.word_index[word]
+    twd = tm.twd(word_index, doc_index)
+    twd_t = twd[t_index]
+    color = colors.rgb2hex(cmap(int(twd_t * 255)))
+    new_word = '<mark style="background: %s ">%s</mark>' % (color + "BF", word)
+    return new_word
+
+def highlight_word2(doc_index, article_text, t_index):
+
+
+    # Split the text into words
+    # Regex to split text while keeping punctuation
+    split_pattern = r'(\W+)'
+
+    # Split the text while preserving punctuation
+    parts = re.split(split_pattern, article_text)
+
+    # Process words with the custom function
+    processed_parts = [process_word(part, doc_index, t_index) if part.isalnum() else part for part in parts]
+
+    # Reconstruct the final text
+    final_text = ''.join(processed_parts)
+
+    import pdb; pdb.set_trace()
+
+    return final_text
+
+
+
+"""
+def highlight_word2(doc_index, article_text, t_index):
+
+    global tm
+    cmap = colormaps.get_cmap("YlGnBu")
+    new_text = []
+
+    punctuation = {}
+
+    char_list = [',','.','?','!','(',')']
+
+    for w in article_text.split():
+        for x in w:
+            for y in char_list:
+                if x == y:
+                    punctuation[w.index(x)] = y
+                    w = w.replace(y, '')
+
+
+        if w in tm.data.word_index:
+            word_index = tm.data.word_index[w]
+            twd = tm.twd(word_index, doc_index)
+            twd_t = twd[t_index]
+            color = colors.rgb2hex(cmap(int(twd_t * 255)))
+            if len(punctuation) != 0:
+                for k,v in punctuation.items():
+                    w = w[:k] + v + w[k:]
+
+            new_word = '<mark style="background: %s "> %s </mark>' % (color + "BF", w)
+            new_text.append(new_word)
+        else:
+            new_text.append(w)
+            continue
+    #Create new loop to replace
+
     
+        
+
+        
+    import pdb; pdb.set_trace()
+
+    return " ".join(new_text) 
+"""
+"""
+def highlight_word2(doc_index, article_text, t_index):
+    global tm
+
+    cmap = colormaps.get_cmap("YlGnBu")
+
+    new_text = []
+
+    real_text = []
+
+    charList = []
+
+    space_list = []
+
+    punctuations = ''
+
+    char_list = [',', '.', '!', '?', ':', ';']
+
+
+
+
+
+
+
+
+    for a,b in zip(re.split(r"[^A-Za-z]+",article_text),re.split(r"[A-Za-z]+",article_text)): 
+            punctuations += b
+            newstr += a + " 
+
+
+
+   
+
+
+    for index, char in enumerate(article_text):
+        if char in char_list:
+            charList.append(char)
+            new_text.append(' ~ ')  
+        else:
+            new_text.append(char)  
+    
+
+    new_text = "".join(new_text)
+
+    
+    for char in range(len(new_text)):
+        if new_text[char] == '~':
+            if new_text[char-2:char] == "  " and new_text[char+1] == " " and new_text[char+2] != " ":
+                space_list.append("Before")
+            elif new_text[char-1] == " " and new_text[char-2] != " " and new_text[char+1: char+3] == "  ":
+                space_list.append("After")
+            else:
+                space_list.append("Normal")
+
+
+    for w in new_text.split():
+        
+        if w not in tm.data.word_index:
+            real_text.append(w) 
+            continue
+        word_index = tm.data.word_index[w]
+        twd = tm.twd(word_index, doc_index)
+        twd_t = twd[t_index]
+        color = colors.rgb2hex(cmap(int(twd_t * 255)))
+        new_word = '<mark style="background: %s ">%s</mark>' % (color + "BF", w)
+        real_text.append(new_word)
+        
+
+
+    counter = 0
+    for x in range(len(real_text)):
+        if real_text[x] == "~":
+            real_text[x] = charList[counter]
+            counter += 1
+
+
+    counter = 0 
+    
+    for char in range(len(real_text)):
+        if real_text[char] in char_list:
+            if space_list[counter] == "Before":
+                real_text.insert(char-1, " ")
+            elif space_list[counter] == "After":
+                real_text.insert(char+1, " ")
+            
+            counter += 1
+
+    real_text = " ".join(real_text)
+
+    for char in char_list:
+        real_text = remove_spaces_around_char(real_text, char)
+
+    newnewstr = ""
+
+
+    real_text = " ".join(real_text)
+
+    pattern = r'<mark[^>]*>.*?<\/mark>|\S+'
+
+    matches = re.findall(pattern, real_text)
+
+    punctuations = list(punctuations)
+
+    combined = [item for pair in zip(matches, punctuations) for item in pair]
+
+    import pdb; pdb.set_trace()
+
+    return real_text
+"""
+
 def topic_chart():
         plt.clf()
         plt.figure(figsize=(14,12))

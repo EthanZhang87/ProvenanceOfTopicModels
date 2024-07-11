@@ -21,9 +21,34 @@
         <br>
         
         <div>
-            <h2>Document Content</h2>
-            {{contentView}}
+            <h1>{{ title }}</h1>
+            <p><em>{{ subtitle }}</em></p>
+            <div>
+                {{ contentView|safe }}
+            </div>
         </div>
+        <div>
+            {{ stringOfWords }}
+        </div>
+        <br>
+        <hr>
+        <label for="input">Please enter the topic id you would like to analyze (0-9): </label>
+        <input type="text" id="topicIdInput"><br>
+        <button onclick="updateDocument()">Send Data</button>
+        <script>
+
+            function updateDocument(){
+            var currentUrl = window.location.href;
+            var prefix = "http://127.0.0.1:8080/documents/"
+            var value2 = currentUrl.split('/')[4]
+            var topicId = document.getElementById('topicIdInput').value;
+          
+            var url = '/documents/' + value2 + "/" + topicId;  // Construct the URL with the entered topic ID
+
+            // Redirect to the new URL
+            window.location.href = url;
+        }
+        </script>
 
     </body>
 
