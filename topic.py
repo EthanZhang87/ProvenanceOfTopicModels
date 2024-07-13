@@ -269,6 +269,33 @@ def singleTopic(id):
     topic_link.close()
     return print_topic
 
+def singleTopicGivenWord(id):
+
+    topic_link = StringIO()
+    global tm   
+    global nameChance
+ 
+    td = tm.prtd()
+
+    nameChance = {}
+    
+   
+    t1 = enumerate(td[:,id])
+    sort_t1 = sorted(t1,key=lambda x: x[1],reverse=True)
+    print("========================================", file = topic_link)
+    print("== Topic: %d | {%20s}" % (id,top3[id]) +"<br>\n", file = topic_link)
+    print("========================================" +"<br>\n", file = topic_link)
+    for d,pr in sort_t1:
+        #print("%20s | %.4f%%" % (doc_names[d],100*pr) +"<br>\n", file = topic_link)
+        nameChance[doc_names[d]] = 100*pr
+
+    topic_link.seek(0)
+    print_topic = topic_link.read()
+    topic_link.close()
+
+    return print_topic
+
+
 def printOneDocument(id):
     topic_link = StringIO()
 
@@ -462,20 +489,17 @@ def process_word(word, doc_index, t_index):
 def highlight_word2(doc_index, article_text, t_index):
 
 
-    # Split the text into words
-    # Regex to split text while keeping punctuation
     split_pattern = r'(\W+)'
 
-    # Split the text while preserving punctuation
+
     parts = re.split(split_pattern, article_text)
 
-    # Process words with the custom function
+
     processed_parts = [process_word(part, doc_index, t_index) if part.isalnum() else part for part in parts]
 
-    # Reconstruct the final text
+
     final_text = ''.join(processed_parts)
 
-    import pdb; pdb.set_trace()
 
     return final_text
 
@@ -543,19 +567,9 @@ def highlight_word2(doc_index, article_text, t_index):
     char_list = [',', '.', '!', '?', ':', ';']
 
 
-
-
-
-
-
-
     for a,b in zip(re.split(r"[^A-Za-z]+",article_text),re.split(r"[A-Za-z]+",article_text)): 
             punctuations += b
             newstr += a + " 
-
-
-
-   
 
 
     for index, char in enumerate(article_text):

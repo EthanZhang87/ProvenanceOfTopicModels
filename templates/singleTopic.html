@@ -18,6 +18,24 @@
             {{t}}
         </div>
 
+        <label for="input">Please a word from this Topic you would like to analyze: </label>
+        <input type="text" id="topicWord"><br>
+        <button onclick="updateDocument()">Send Data</button>
+        <script>
+
+            function updateDocument(){
+            var currentUrl = window.location.href;
+            var value2 = currentUrl.split('/')[4]
+            var topicWord = document.getElementById('topicWord').value;
+            
+            var url = '/topic/' + value2 + "/" + topicWord;  // Construct the URL with the entered topic ID
+
+            // Redirect to the new URL
+            window.location.href = url;
+        }
+        </script>
+
+
     </body>
 
 
