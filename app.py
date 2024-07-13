@@ -30,10 +30,12 @@ def hello():
 def process():
     global counter
     global topicId
+
     a_name = request.form.get('data')
     counter = request.form.get('count')
     topicId = request.form.get('topicId')
     articles = download.checktable(a_name)
+    topicWord = request.form.get('topicWord')
     return render_template("articles.html", rows = articles, article_length = len(articles), table_len = (len(articles))/3)
 
 @app.route('/topic/<int:id>', methods = ['GET', 'POST'])
@@ -44,11 +46,54 @@ def one_topic(id):
 
     return render_template("singleTopic.html", t=topic_data, i = id)
 
+@app.route('/topic/<int:topic_id>/<word>', methods = ['GET', 'POST'])
+def word_topic_document(topic_id, word):
+    conn = sql.connect('article_db.db', check_same_thread=False)
+    c = conn.cursor()
+    totalsum = 0
+    global topic
+
+    topics = topic.singleTopicGivenWord(topic_id)
+    topics = Markup(topics)
+
+    chances = topic.nameChance
+
+    docsContaining = {}
+
+    for k, v in chances.items():
+        c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id) + " WHERE article_title = ?", (k,))
+        results = c.fetchall()
+
+        word = word.lower()
+
+        if results:
+            content = results[0][1] 
+
+            content_words = content.split()
+
+            for x in content_words:
+                x = x.lower()
+                if x == word or word in x:
+                    docsContaining[k] = v 
+                    break
+        
+    for k,v in docsContaining.items():
+        totalsum += v
+
+    for k, v in docsContaining.items():
+        docsContaining[k] = str((v / totalsum)*100) + "%"
+
+    import pdb; pdb.set_trace()
+
+
+    return render_template("analyzeWord.html", data = docsContaining)
+
 @app.route('/documents')
 def get_documents():
     global topic
     documents = topic.printDocuments()
     documents = Markup(documents)
+    
 
     return render_template("returnDocuments.html", d = documents)
 
@@ -68,17 +113,6 @@ def get_one_document(id):
      title = content[0]
      docContent = content[1]
      topicID = request.form.get('data')
-     word = "polygon"
-
-     string_of_words = ""
-
-     for x in docContent[1]:
-        if x == "polygon":
-            i = docContent[1].index(x)
-            string_of_words += docContent[i-50: i]
-            string_of_words += docContent[i: i+50]
-    
-
 
 
      try:
@@ -90,7 +124,7 @@ def get_one_document(id):
     
 
 
-     return render_template("singleDocument.html", doc = document, title = title, contentView = highlight, stringOfWords = string_of_words)
+     return render_template("singleDocument.html", doc = document, title = title, contentView = highlight)
 
 
 @app.route('/documents/<int:id>/<int:tid>', methods = ['GET', 'POST'])

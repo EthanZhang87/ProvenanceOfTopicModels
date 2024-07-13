@@ -16,6 +16,7 @@ conn = sql.connect('article_db.db', check_same_thread=False)
 c = conn.cursor()
 c.execute('CREATE TABLE IF NOT EXISTS articles (article_id integer, article_name text, article_text text, article_link text)')
 c.execute('CREATE TABLE IF NOT EXISTS documents (article_title text, article_content text)')
+
 conn.commit()
 
 
@@ -51,6 +52,9 @@ def add_data2(title, content, mainid):
     tablename = "documents_" + mainid 
     c.execute('INSERT INTO ' + tablename + ' (article_title, article_content) VALUES (?,?)', (title, content))
     conn.commit()
+
+
+
 
 def download_articles(article_name):
     global contentList
@@ -131,6 +135,7 @@ def download_articles(article_name):
         main_pages.append(title)
         text = page.content.replace("\n", "<br>").replace("== References ==", " ")
         contentList.append(text)
+ 
         add_data2(title, text, main_page_id)
         # remove non-alphabetic characters from text
         clean_text = re.sub('[^A-Za-z]+', ' ', text)
@@ -141,6 +146,10 @@ def download_articles(article_name):
             f.write("title: %s\n" % title)
             f.write("id: %s\n" % pageid)
             f.write(clean_text)
+
+    import pdb; pdb.set_trace()
+
+    
 
 
     

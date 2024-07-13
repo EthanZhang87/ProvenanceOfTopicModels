@@ -1,0 +1,3 @@
+title: Mobilinux
+id: 67697286
+Mobilinux is a discontinued Linux distribution by MontaVista It was announced on April br br br History br In PalmSource joined MontaVista to collaborate on Mobilinux br In April version was released In version was released br br br Usage br Around million devices have run on Mobilinux mainly in Asian markets LWN net argued that because it was controlled by a single company and targeted mobile operators it did not generated a large developer community It has been used on smartphones and NAS devices The Motorola used Mobilinux in their MotoMagx OS for example Motorola ROKR br br br Hardware support br It had support for the Freescale s i MX chipset br br br See also br OpenEZX br br br 

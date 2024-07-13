@@ -1,0 +1,3 @@
+title: ITunes Connect
+id: 34016872
+iTunes Connect is an Apple service that producers can use to distribute music podcasts movies and TV programmes to customers on the iTunes Store and ebooks to customers on the Apple Books Store br br br App Store Connect br br In June Apple launched a dedicated service App Store Connect for registered developers to publish apps on the App Store and Mac App Store Previously developers could use iTunes Connect to publish apps to the App Store br br br Features br Both iTunes Connect and App Store Connect let users add metadata to items define which countries items are available in view sales reports and collaborate on the same projects by adding team members br br br 
