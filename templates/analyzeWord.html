@@ -8,12 +8,64 @@
 <!--    <link rel="stylesheet" href="/static/style.css"> -->
     </head>
     <body>
-        <h1>Highlighted Article Text</h1>
+        <h1>Analyze Word - {{word}}</h1>
         <hr>
 
         {% for key, value in data.items() %}
             <b><p>{{ key }} </b>| {{ value }}</p>
         {% endfor %}
         
+        <h2>Article Sentence</h2><hr>
+        {{ sentence }}
+
+        <h2>Most key words</h2><hr>
+        <ul>
+            {% for sentence in doc_sentence %}
+                <li>{{ sentence | safe }}</li><br>
+
+            {% endfor %}
+
+        </ul>
+
+        <br><br>
+        <h2>Hightest combined probability</h2><hr>
+        <ul>
+            
+            {% for sentence in doc_sentence2 %}
+                <li>{{ sentence | safe }}</li><br>
+
+            {% endfor %}    
+     
+        </ul>
+
+        <br><br>
+        <h2>Hightest average probability</h2><hr>
+        <ul>
+            {% for sentence in doc_sentence3 %}
+                <li>{{ sentence | safe }}</li><br>
+
+            {% endfor %}
+        </ul>
+
+        <br><br>
+        <h2>Most unique key words</h2><hr>
+        <ul>
+            {% for sentence in doc_sentence4 %}
+                <li>{{ sentence | safe }}</li><br>
+
+            {% endfor %}
+        </ul>
+
+        <br><br>
+        <h2>Highest Proportion of Key Words</h2><hr>
+        <ul>
+            {% for sentence in doc_sentence5 %}
+                <li>{{ sentence | safe }}</li><br>
+
+            {% endfor %}
+        </ul>
+
+        
     </body>
+
 </html>

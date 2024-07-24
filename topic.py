@@ -225,7 +225,8 @@ class TopicModel:
         
         pr_w = self.pr_wt[x]
         header = "Topic %d" % x
-        self.data.print_word_probability_table(pr_w, header, f=f)
+        articleMName = app.getMainName()
+        self.data.print_word_probability_table(pr_w, header, x, "yes", articleMName, f=f)
 
     def print_one_document(self, x, f=sys.stdout):
         # Check if the specified index x is within the valid range
@@ -685,6 +686,8 @@ def topic_chart():
         plt.gca().invert_yaxis()
         plt.yticks(fontsize = 18)
         plt.gca().set_xticks([])
+
+
 class DocPlot():
     def __init__(self, doc_list, doc_num):
         #lists of top topics per document
@@ -733,6 +736,7 @@ class DocPlot():
         self.pr10 = doc_list[doc_num][9][1]
         
         name = doc_names[doc_num]  
+
 
 def doc_chart():
     #clears previous topic bar chart

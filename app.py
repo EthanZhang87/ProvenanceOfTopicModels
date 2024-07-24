@@ -1,4 +1,4 @@
-from flask import Flask,render_template, request, url_for, redirect
+from flask import Flask,render_template, request, url_for, redirect, session
 from markupsafe import Markup
 import os, re
 import wikipedia as wp
@@ -10,6 +10,7 @@ plt.rcParams['figure.autolayout'] = True
 from flask import Response
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from matplotlib import colors, colormaps
 
 def plot_to_img():
         topic.topic_chart()
@@ -19,6 +20,7 @@ def plot_to_img():
         plt.savefig("static/docchart.png")
 
 app = Flask(__name__,template_folder="templates", static_folder="static")
+app.secret_key = "myKey"
 
 @app.route("/")
 def hello():
@@ -30,13 +32,21 @@ def hello():
 def process():
     global counter
     global topicId
+    global a_name
 
     a_name = request.form.get('data')
     counter = request.form.get('count')
     topicId = request.form.get('topicId')
     articles = download.checktable(a_name)
+    
     topicWord = request.form.get('topicWord')
+
+    session['a_name'] = a_name
+    
     return render_template("articles.html", rows = articles, article_length = len(articles), table_len = (len(articles))/3)
+
+def getMainName():
+    return session.get('a_name', 'Default Value')
 
 @app.route('/topic/<int:id>', methods = ['GET', 'POST'])
 def one_topic(id):
@@ -45,6 +55,29 @@ def one_topic(id):
     topic_data = Markup(topic_data)
 
     return render_template("singleTopic.html", t=topic_data, i = id)
+
+
+def process_key_word(word, value):
+    cmap = colormaps.get_cmap("YlGnBu")
+    scaled_value = int(float(value) * 255)  
+    color = colors.rgb2hex(cmap(scaled_value))
+    new_word = '<mark style="background: %s ">%s</mark>' % (color + "BF", word)
+    return new_word
+
+
+def highlight_sentences(doc_sentences, keyValues):
+    highlighted_sentences = []
+    for sentence in doc_sentences:
+        new_sentence = []
+        for word in sentence.split():
+            for k, v in keyValues.items():
+                if k.lower() in word.lower():
+                    word = process_key_word(word, v)
+                    break
+            new_sentence.append(word)
+        highlighted_sentences.append(" ".join(new_sentence))
+    return highlighted_sentences
+
 
 @app.route('/topic/<int:topic_id>/<word>', methods = ['GET', 'POST'])
 def word_topic_document(topic_id, word):
@@ -55,6 +88,8 @@ def word_topic_document(topic_id, word):
 
     topics = topic.singleTopicGivenWord(topic_id)
     topics = Markup(topics)
+
+    listOfKeyWords = []
 
     chances = topic.nameChance
 
@@ -83,10 +118,196 @@ def word_topic_document(topic_id, word):
     for k, v in docsContaining.items():
         docsContaining[k] = str((v / totalsum)*100) + "%"
 
+    c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id) + " WHERE article_title = ?", (session.get('a_name'),))
+    results = c.fetchall()
+    article = results[0]
+    article_c = article[1]
+
+
+
+    sentences = article_c.split(".")
+
+    article_sentence = ""
+
+    for x in sentences:
+        if next(iter(docsContaining)).lower() in x.lower():
+            article_sentence += x
+            break
+
+    a_name = session.get('a_name')
+
+    a_name = a_name.split()[0]
+
+    tablename = f"words_{topic_id}_{a_name}"
+
+    c.execute(f"SELECT article_word, article_prob FROM {tablename}")
+    
+
+    results = c.fetchall()
+    article = results[0]
+    keys = article[0].split()
+    values = article[1].split()
+
+    keyValues = {keys[x]: float(values[x])*100 for x in range(len(keys))}
+
+
+    c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id) + " WHERE article_title = ?", (next(iter(docsContaining)),))
+    results = c.fetchall()
+    article = results[0]
+    article_c = article[1].split(".")
+    article_c = article_c[0:len(article_c)-2]
+
+
+    #Most key words
+    doc_sentence = ['','','']
+    
+    topSentences = {}
+    for sentence in article_c:
+        if word.lower() in sentence.lower():
+            sentenceTotal = 0
+            for k,v in keyValues.items():
+                if k.lower() in sentence.lower():
+                    for x in sentence.split():
+                        if x.lower() == k.lower():
+                            sentenceTotal += 1
+
+            topSentences[str(sentence)] = sentenceTotal
+    
+
+
+    doc_sentence = sorted(topSentences.items(), key=lambda x: x[1])[-3:]
+
+    doc_sentence = [x[0] for x in doc_sentence]
+
+    doc_sentence = [re.sub(r'<br\s*/?>', '', sentence) for sentence in doc_sentence]
+
+    
+
+    doc_sentence.reverse()
+
+    doc_sentence = highlight_sentences(doc_sentence, keyValues)
+
     import pdb; pdb.set_trace()
+    
 
 
-    return render_template("analyzeWord.html", data = docsContaining)
+
+
+    
+
+    #Highest Probability
+    doc_sentence2 = ['','','']
+    
+    topSentences2 = {}
+    for sentence in article_c:
+        if word.lower() in sentence.lower():
+            sentenceTotal = 0
+            for k,v in keyValues.items():
+                if k.lower() in sentence.lower():
+                    for x in sentence.split():
+                        if x.lower() == k.lower():
+                            sentenceTotal += float(v)*100
+
+            topSentences2[str(sentence)] = sentenceTotal
+
+    doc_sentence2 = sorted(topSentences2.items(), key=lambda x: x[1])[-3:]
+
+    doc_sentence2 = [x[0] for x in doc_sentence2]
+
+    doc_sentence2 = [re.sub(r'<br\s*/?>', '', sentence) for sentence in doc_sentence2]
+
+    doc_sentence2.reverse()
+
+    doc_sentence2 = highlight_sentences(doc_sentence2, keyValues)
+
+
+
+
+    #Highest Average Probability
+    doc_sentence3 = ['','','']
+    
+    topSentences3 = {}
+    for sentence in article_c:
+        if word.lower() in sentence.lower():
+            sentenceTotal = 0
+            sentenceLength = len(sentence)
+            if sentenceLength > 0:
+                for k,v in keyValues.items():
+                    if k.lower() in sentence.lower():
+                        for x in sentence.split():
+                            if x.lower() == k.lower():
+                                sentenceTotal += float(v)
+
+                topSentences3[str(sentence)] = sentenceTotal/sentenceLength
+
+    doc_sentence3 = sorted(topSentences3.items(), key=lambda x: x[1])[-3:]
+
+    doc_sentence3 = [x[0] for x in doc_sentence3]
+
+    doc_sentence3 = [re.sub(r'<br\s*/?>', '', sentence) for sentence in doc_sentence3]
+
+    doc_sentence3.reverse()
+
+    doc_sentence3 = highlight_sentences(doc_sentence3, keyValues)
+
+
+
+    #Most Unique Words
+    doc_sentence4 = ['','','']
+    
+    topSentences4 = {}
+    for sentence in article_c:
+        if word.lower() in sentence.lower():
+            sentenceTotal = 0
+            for k,v in keyValues.items():
+                if k.lower() in sentence.lower():
+                    sentenceTotal += 1
+
+            topSentences4[str(sentence)] = sentenceTotal
+
+    doc_sentence4 = sorted(topSentences4.items(), key=lambda x: x[1])[-3:]
+
+    doc_sentence4 = [x[0] for x in doc_sentence4]
+
+    doc_sentence4 = [re.sub(r'<br\s*/?>', '', sentence) for sentence in doc_sentence4]
+
+    doc_sentence4.reverse()
+
+    doc_sentence4 = highlight_sentences(doc_sentence4, keyValues)
+            
+    #import pdb; pdb.set_trace()
+
+
+
+    #Highest Proportion of Sentence contains key words
+    doc_sentence5 = ['','','']
+    
+    topSentences5 = {}
+    for sentence in article_c:
+        if word.lower() in sentence.lower():
+            sentenceTotal = 0
+            sentenceLength = len(sentence)
+            if sentenceLength > 0:
+                for k,v in keyValues.items():
+                    if k.lower() in sentence.lower():
+                        for x in sentence.split():
+                            if x.lower() == k.lower():
+                                sentenceTotal += len(k)
+
+                topSentences5[str(sentence)] = sentenceTotal/sentenceLength
+
+    doc_sentence5 = sorted(topSentences5.items(), key=lambda x: x[1])[-3:]
+
+    doc_sentence5 = [x[0] for x in doc_sentence5]
+
+    doc_sentence5 = [re.sub(r'<br\s*/?>', '', sentence) for sentence in doc_sentence5]
+
+    doc_sentence5.reverse()
+
+    doc_sentence5 = highlight_sentences(doc_sentence5, keyValues)
+
+
+    return render_template("analyzeWord.html", data = docsContaining, word = word, sentence = Markup(article_sentence), doc_sentence = doc_sentence, doc_sentence2 = doc_sentence2, doc_sentence3 = doc_sentence3, doc_sentence4 = doc_sentence4, doc_sentence5 = doc_sentence5)
 
 @app.route('/documents')
 def get_documents():

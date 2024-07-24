@@ -16,8 +16,11 @@ conn = sql.connect('article_db.db', check_same_thread=False)
 c = conn.cursor()
 c.execute('CREATE TABLE IF NOT EXISTS articles (article_id integer, article_name text, article_text text, article_link text)')
 c.execute('CREATE TABLE IF NOT EXISTS documents (article_title text, article_content text)')
+c.execute('CREATE TABLE IF NOT EXISTS words (article_id integer, article_word text, article_prob string)')
 
 conn.commit()
+
+
 
 
 def checktable(a_name):
@@ -53,6 +56,13 @@ def add_data2(title, content, mainid):
     c.execute('INSERT INTO ' + tablename + ' (article_title, article_content) VALUES (?,?)', (title, content))
     conn.commit()
 
+
+def add_top_words(id, topWords):
+    tablename = "words_" + str(id)
+    keys = "".join(list(topWords.keys()))
+    values = "".join(list(topWords.values()))
+    c.execute('INSERT INTO ' + tablename + ' (article_id, article_word, article_prob) VALUES (?,?)', (id, keys, values))
+    conn.commit()
 
 
 

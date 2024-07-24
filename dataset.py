@@ -2,6 +2,7 @@ import glob
 import numpy as np
 from collections import defaultdict
 import sys
+import sqlite3 as sql
 from io import StringIO
 import matplotlib.pyplot as plt
 import topic
@@ -88,7 +89,7 @@ class DataSet:
             plt.barh(x, word_pr[2], color="blue")
         plt.show()
 
-    def print_word_probability_table(self,pr,header,length=20, f=sys.stdout):
+    def print_word_probability_table(self,pr,header,id, mess, articleName, length=20,f=sys.stdout):
         """print out a word probability table.
         print out the top most probable words, based on length"""
         print("========================================" +"<br>\n", file = f)
@@ -125,8 +126,12 @@ class DataSet:
             a.append(pr)
             (topic.wp3).append(a)
             top_three += word + " | "
+
+
+
+
         
-        
+        word_probs = {}
         
         print(header + " { " + "%20s " % (top_three) + "}" + "<br>\n", file = f)
         #print("==", header +"<br>\n", file = f)
@@ -134,7 +139,31 @@ class DataSet:
         for w,pr in word_pr[:length]:
             word = self.words[w]
             print("%20s | %.4f%%" % (word,100*pr) +"<br>\n", file = f)
+
+        for w,pr in word_pr[:40]:
+
+            word = self.words[w]
+            word_probs[word] = pr
         #print_chart(top_x, word_pr)
+        if mess == 'yes' and articleName != "no":
+            
+            conn = sql.connect('article_db.db', check_same_thread=False)
+            c = conn.cursor()
+
+            articleName = articleName.split()[0]
+
+            
+          
+            tablename = f"words_{id}_{articleName}"
+            c.execute(f'CREATE TABLE IF NOT EXISTS {tablename} (article_id integer, article_word text, article_prob text)')
+            
+            keys = " ".join(word_probs.keys())
+            values = " ".join(map(str, word_probs.values()))
+            
+            c.execute(f'INSERT INTO {tablename} (article_id, article_word, article_prob) VALUES (?, ?, ?)', (id, keys, values))
+            conn.commit()
+                        
+        
         return top_three
     
     def print_top_five_words(self, pr, length=20, f=sys.stdout):
@@ -242,6 +271,6 @@ class DataSet:
         pr = [ c/total for c in counts ]
 
         header = "common words (out of %d total)" % total
-        self.print_word_probability_table(pr,header, f = f)
+        self.print_word_probability_table(pr, header, 4, "no", "no", f = f)
         prd = self.vectors.sum(axis=1) / self.vectors.sum()
         return prd
