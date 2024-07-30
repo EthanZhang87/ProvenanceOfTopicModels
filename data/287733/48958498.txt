@@ -1,0 +1,3 @@
+title: Breeze Sans
+id: 48958498
+Breeze Sans is a humanist sans serif typeface for the Latin Greek and Cyrillic writing systems designed by Dalton Maag for Samsung It is the user interface font of the Tizen operating system starting with Tizen and the Samsung Galaxy Watch br Previous versions used Tizen Sans a separate typeface designed by Fontrix Tizen also uses fallback Breeze Sans fonts for other writing systems designed by Fontrix br Breeze Sans is available in five weights Thin Light Regular Medium and Bold with condensed styles to complement them There are no italic or oblique styles however br br br Notes and references br br br External links br Breeze Sans on Samsung Developer br Breeze Sans on Tizen Developer

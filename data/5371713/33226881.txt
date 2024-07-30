@@ -1,0 +1,3 @@
+title: Spring Integration
+id: 33226881
+Spring Integration is an open source framework for enterprise application integration using the well known Enterprise Integration Patterns It is a lightweight framework that builds upon the core Spring framework It is designed to enable the development of integration solutions typical of event driven architectures and messaging centric architectures br Spring Integration is part of the Spring portfolio br br br See also br Spring Framework br Apache Camel similar solution br br br Citations br br br br Deinum Marten Rubio Daniel Long Josh Mak Gary September Spring Recipes A Problem Solution Approach Second ed Apress ISBN br br br External links br Official website

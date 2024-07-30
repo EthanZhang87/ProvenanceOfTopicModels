@@ -1,0 +1,3 @@
+title: Lohit fonts
+id: 40135304
+Lohit is a font family designed to cover Indic scripts and released by Red Hat The Lohit fonts currently cover languages Assamese Bengali Gujarati Hindi Kannada Malayalam Marathi Oriya Punjabi Tamil Telugu The fonts were supplied by Modular Infotech and licensed under the GPL In September they were retroactively relicensed under the OFL The Lohit fonts are used as web fonts by some Wikimedia Foundation sites like Wikipedia since March br br br 

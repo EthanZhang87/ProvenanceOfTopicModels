@@ -1,0 +1,3 @@
+title: Stack (Haskell)
+id: 313158
+Stack is a tool to build Haskell projects and manage their dependencies It uses the Cabal library but with a curated version of the Hackage repository called Stackage br Stack competes against Cabal s binary cabal install and has been created as a result of the overall criticism about dependency problems It does not however provide its own package format but uses existing cabal files and complements projects with an additional stack yaml file br br br 

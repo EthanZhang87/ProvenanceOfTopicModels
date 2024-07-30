@@ -1,0 +1,3 @@
+title: DBIx::Class
+id: 25579950
+DBIx Class often abbreviated as DBIC is an object relational mapper for Perl It is used to map relational database table rows to Perl objects and generates SQL queries transparently to the application developer It also implements the active record pattern It is popular in Web application frameworks such as Catalyst and Dancer br br br See also br DBI br Other object relational mappers for Perl br br br External links br DBIx Class Documentation

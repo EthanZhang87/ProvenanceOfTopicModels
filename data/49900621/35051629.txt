@@ -1,0 +1,3 @@
+title: Wombat (operating system)
+id: 35051629
+In computing Wombat is an operating system a high performance virtualised Linux embedded operating system marketed by Open Kernel Labs a spin off of National ICT Australia s now NICTA Embedded Real Time Operating System Program br Wombat is a de privileged paravirtualised Linux running on an L and IGUANA system It is optimized for embedded systems br br br See also br L Linux br br br br br br External links br Wombat A portable user mode Linux for embedded systems presentation slides br Virtualised os wombat br Iguana br L Based Operating Systems br L Sec Microkernel Specification br NICTA L embedded Kernel

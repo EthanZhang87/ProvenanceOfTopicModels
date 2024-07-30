@@ -1,84 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
-        <link rel="stylesheet" href="/static/style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link rel="stylesheet" href="static/style.css">
 
-        <script type="text/javascript"> 
-           
-        </script>
-    </head>
+    <script type="text/javascript"> 
+       
+    </script>
+</head>
 
-    <body>
-        <h1>Topic Model</h1>
-        <div id="topic_model">
-            {{t}}
-        </div>
-        <div>
-            {% for x in range(10) %}
-            <a href="{{ url_for('one_topic', id = x) }}">Topic {{ x }}</a>
+<body>
+    <h1>Topic Model</h1>
+    <div id="topic_model">
+        {{t}}
+    </div>
+    <div>
+        {% for x in range(10) %}
+        <a href="{{ url_for('one_topic', id = x) }}">Topic {{ x }}</a>
+        {% for i in range(numListed) %}
+            {% set color = ['red', 'green', 'blue'][i % 3] %}
+            <img src="{{ url_for('static', filename='images/' ~ color ~ '.png') }}" height="10" width="{{ t3[x][i][1] * 100 }}%">
+        {% endfor %}
+        <br>
+        {% for i in range(numListed) %}
+            {% set color = ['red', 'green', 'blue'][i % 3] %}
+            <span style="color: {{ color }};">{{ t3words[x][i] }}</span>
+        {% endfor %}
+        <br>
+        <hr>
+        {% endfor %}
+    </div>
+    <div>
+        <hr>
+        <h2>Color Key</h2>
+        {% for k,v in colorsList.items() %}
+            {% set color = v %}
+            <span>{{k}}</span>
+            <span><img src="{{ url_for('static', filename='images/barChartColors/' + color + '.png') }}" height="20" width="20"></span><br>
+        {% endfor %}
+        <hr>
+
+        {% for x in range(count) %}
+            <a href="{{ url_for('get_one_document', id=x)}}">Document: {{names[x]}} </a><br>
             {% for i in range(numListed) %}
-                {% set color = ['red', 'green', 'blue'][i % 3] %}
-                <img src="{{ url_for('static', filename='images/' ~ color ~ '.png') }}" height="10" width="{{ t3[x][i][1] * 100 }}%">
+                {% set color = colorsList[docTopics[x][i]] %}
+                <img src="{{ url_for('static', filename='images/barChartColors/' + color + '.png') }}" height="10" width="{{t3Doc[x][i][1]*30}}%">
+            {% endfor %}<br>
+            {% for i in range(numListed) %}
+                {% set colors = colorsList[docTopics[x][i]] %}
+                <span style="color: {{colors}};">{{ docTopics[x][i] }}&nbsp;&nbsp;&nbsp;</span>
             {% endfor %}
             <br>
-            {% for i in range(numListed) %}
-                {% set color = ['red', 'green', 'blue'][i % 3] %}
-                <span style="color: {{ color }};">{{ t3words[x][i] }}</span>
-            {% endfor %}
-            <br>
             <hr>
-            {% endfor %}
-                
-        </div>
-        <div>
-            <hr>
-            <h2>Color Key</h2>
-            {% for k,v in colorsList.items() %}
-                {% set color = v %}
-                <span>{{k}}</span>
-                <span><img src="{{ url_for('static', filename='images/barChartColors/' + color + '.png') }}" height="20" width="20"></span><br>
+        {% endfor %}
+        <a href="{{ url_for('get_documents') }}">View Documents</a>
+    </div>
 
-            {% endfor %}
-            <hr>
+    {{top_img}}
+    {{doc_img}}
 
-            
-            {% for x in range(count) %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-                <a href="{{ url_for('get_one_document', id=x)}}">Document: {{names[x]}} </a><br>
-                {% for i in range(numListed) %}
-                    {% set color = colorsList[docTopics[x][i]] %}
-                    <img src="{{ url_for('static', filename='images/barChartColors/' + color + '.png') }}" height="10" width="{{t3Doc[x][i][1]*30}}%">
-                {% endfor %}<br>
-
-                {% for i in range(numListed) %}
-                    {% set colors = colorsList[docTopics[x][i]] %}
-
-                    <span style="color: {{colors}};">{{ docTopics[x][i] }}&nbsp;&nbsp;&nbsp;</span>
-                {% endfor %}
-
-                    <br>
-                    <hr>
-                
-            {% endfor %}
-            <a href="{{ url_for('get_documents') }}">View Documents</a>
-        </div>
-
-        {{top_img}}
-        {{doc_img}}
-    </body>
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-        <form action="{{ url_for("text")}}" method = "post">
+    <form action="{{ url_for("text")}}" method="post">
         <label for="doc_id">Document ID: </label>
-        <input type="text" id = "doc_id" name="d_id">
+        <input type="text" id="doc_id" name="d_id">
         <label for="top_id">Topic Index: </label>
-        <input type="text" id = "top_id" name="t_id" placeholder="0-9">
+        <input type="text" id="top_id" name="t_id" placeholder="0-9">
         <button type="submit">Submit</button>
-
+    </form>
+</body>
 </html>

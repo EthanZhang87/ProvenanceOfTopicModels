@@ -1,0 +1,3 @@
+title: Freemacs
+id: 3971073
+Freemacs is a small programmable computer text editor for MS DOS with some degree of compatibility with GNU Emacs Written by Russ Nelson and later maintained by Jim Hall Freemacs is currently distributed under the GPL only license in the FreeDOS project br Freemacs executable binary in the current version is only k in size Most features are implemented in MINT Mint Is Not Trac whose role is akin to that of Emacs Lisp as used by other implementations of Emacs br The most recent version of Freemacs is H released in Version G was released in br br br br br br External links br Project home page

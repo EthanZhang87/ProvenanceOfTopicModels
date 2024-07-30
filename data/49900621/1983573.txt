@@ -1,0 +1,3 @@
+title: Nukernel
+id: 1983573
+NuKernel is a microkernel that was developed at Apple Computer during the early s It was the basis for the Copland operating system It was written from scratch and designed using concepts from the Mach microkernel with extensive additions for soft real time scheduling to improve multimedia performance Only one NuKernel version was released with a Copland alpha release Development ended in with the cancellation of Copland br The External Reference Specification ERS for NuKernel is contained in its entirety in its patent br The one time technical lead for NuKernel Jeff Robbin was one of the leaders of iTunes and the iPod br Apple s NuKernel is not the microkernel in BeOS nukernel br br br See also br XNU the microkernel in Mac OS X br br br 

@@ -1,0 +1,3 @@
+title: EKA1
+id: 4424603
+EKA EPOC Kernel Architecture is the first generation kernel for the operating system Symbian OS EKA originated in the earlier operating system EPOC It offers preemptive computer multitasking and memory protection but no real time computing guarantees and a single threaded device driver model It was largely superseded by EKA br Much of EKA was developed by a single software engineer Colly Myers when he was working for Psion Software in the early s Myers went on to act as CEO for Symbian Ltd when it was formed to license this kernel and associated operating system to mobile phone makers He is now CEO of Issuebits Ltd br br br See also br Psion company 

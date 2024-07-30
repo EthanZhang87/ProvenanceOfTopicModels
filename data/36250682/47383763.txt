@@ -1,0 +1,3 @@
+title: Facebook Bluetooth Beacon
+id: 47383763
+The Facebook Bluetooth Beacon is a hardware beacon released by Facebook in The beacon uses a bluetooth connection to communicate with the Facebook app on the user s smartphone informing it of the phone s location The technology allows location specific advertising to be pushed to the user s Facebook feed br In June Facebook gave free beacons to a number of businesses in the United States br br br See also br Bluetooth low energy beacon br Eddystone br br br 

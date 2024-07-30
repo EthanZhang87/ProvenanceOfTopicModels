@@ -1,0 +1,3 @@
+title: Hackpad
+id: 43964977
+Hackpad is a web based collaborative real time text editor forked from Etherpad br br br Overview br It was used as the company wikis by multiple prominent startups of the s such as Airbnb Stripe and Upworthy br In April Hackpad was acquired by Dropbox In April it was announced that Hackpad would be released as open source and source code was published on GitHub in August under the Apache license On April Dropbox announced that it would shut down on July with users being permanently migrated to Dropbox Paper br br br See also br Etherpad br Google Docs br br br br br br External links br Official website

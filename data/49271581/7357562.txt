@@ -1,0 +1,3 @@
+title: Software engine
+id: 7357562
+A software engine is a core component of a complex software system The word engine is a metaphor of a car s engine Thus a software engine is a complex subsystem br There is no formal guideline for what should be called an engine but the term has become widespread in the software industry br br br Notable examples br br br Multi engine systems br Mainstream web browsers have both a rendering engine and a JavaScript engine br Video games are often based on a game engine Some of these also have specialized physics or graphics engines br br br 

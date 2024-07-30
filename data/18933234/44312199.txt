@@ -1,0 +1,3 @@
+title: Eww (web browser)
+id: 44312199
+Emacs Web Wowser a backronym of eww is a lightweight web browser within the GNU Emacs text editor Eww can only do basic rendering of HTML there is no capability for executing JavaScript or handling the intricacies of CSS It was developed by Lars Magne Ingebrigtsen who also created the underlying HTML rendering library br br br See also br w m used with emacs w m interface br Emacs W br br br br br br External links br GNU Emacs manual br Source code

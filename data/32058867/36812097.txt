@@ -1,0 +1,3 @@
+title: Profanity (instant messaging client)
+id: 36812097
+Profanity is a text mode instant messaging interface that supports the XMPP protocol It supports Linux macOS Windows via Cygwin or WSL FreeBSD and Android via Termux br Packages are available in Debian Ubuntu and Arch Linux distributions br Features include multi user chat desktop notifications Off The Record and OMEMO message encryption br br br br br br External links br Official website br Linux Format Issue Hotpicks

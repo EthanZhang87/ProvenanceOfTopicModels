@@ -1,0 +1,3 @@
+title: Real World Haskell
+id: 37887906
+Real World Haskell is an O Reilly Media book ISBN about the programming language Haskell by Bryan O Sullivan Don Stewart and John Goerzen It features a rhinoceros beetle as its mascot on the cover It won a Jolt Award br br br br br br External links br Official website br Full text

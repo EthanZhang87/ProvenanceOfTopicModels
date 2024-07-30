@@ -1,0 +1,3 @@
+title: RefTeX
+id: 3571719
+RefTeX is a reference management software package designed for use with Emacs and BibTeX While it can cooperate effectively with the popular AUCTeX package it is not strictly necessary to use them together br RefTeX is distributed under the GNU General Public License It was originally written by Carsten Dominik the author of org mode and CDLaTeX with contributions by Stephen Eglen and is currently maintained by the AUCTeX project It has been bundled and pre installed with Emacs since version br br br br br br External links br RefTeX homepage

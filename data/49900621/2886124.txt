@@ -1,0 +1,3 @@
+title: MacMach
+id: 2886124
+MacMach is a computer operating system from the early s developed by Carnegie Mellon University Architecturally it consists of Berkeley Software Distribution BSD code running on the Mach microkernel with the Apple Macintosh System running experimentally as a Mach task The entire system runs on Macintoshes based on the Motorola series k family of microprocessors Its license requires the user to have an AT T UNIX license and includes Apple Inc s restriction against further redistribution br br br See also br MkLinux br MachTen br A UX br NeXTSTEP br br br 

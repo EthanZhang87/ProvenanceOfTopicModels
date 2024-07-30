@@ -1,0 +1,3 @@
+title: Meadow (programming)
+id: 3258917
+Meadow is an open source programming project to port the popular GNU Emacs text editor for UNIX based operating systems to Microsoft Windows with some added functions The name comes from the phrase Multilingual enhancement to GNU Emacs with ADvantages Over Windows br br br Versions br Version series based on Emacs v current stable release Ver br Version series based on Emacs v January current pre release br Version series based on Emacs v Development release br br br Installation br Meadow utilizes Netinstaller similar to the one used for Cygwin installation This allows users to install Meadow in the way the user wanted making it easier to get started with Meadow 

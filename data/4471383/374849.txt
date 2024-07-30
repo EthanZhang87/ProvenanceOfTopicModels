@@ -1,0 +1,3 @@
+title: Latent typing
+id: 374849
+In computer programming latent typing refers to a type system where types are associated with values and not variables An example latently typed language is Scheme This typically requires run time type checking and so is commonly used synonymously with dynamic typing br br br See also br Duck typing br br br 

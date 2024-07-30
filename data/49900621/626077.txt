@@ -1,0 +1,3 @@
+title: Lites
+id: 626077
+Lites is a discontinued Unix like operating system based on BSD and the Mach microkernel Specifically Lites is a multi threaded server and emulation library that provided unix functions to a Mach based system At the time of its release Lites provided binary compatibility with BSD NetBSD FreeBSD BSD UX BSD and Linux br Lites was originally written by Johannes Helander at Helsinki University of Technology and was further developed by the Flux Research Group at the University of Utah br br br See also br HPBSD br br br br br br External links br Official website Utah Lites

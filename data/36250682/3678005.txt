@@ -1,0 +1,3 @@
+title: Instant Messaging and Presence Protocol
+id: 3678005
+Instant Messaging and Presence Protocol IMPP was an IETF working group created for the purpose of developing an architecture for simple instant messaging and presence awareness notification It was created on February and concluded on September br br br Documents br br br See also br Presence and Instant Messaging PRIM br SIP for Instant Messaging and Presence Leveraging Extensions SIMPLE br Extensible Messaging and Presence Protocol XMPP AKA Jabber br br br External links br Instant Messaging and Presence Protocol Impp IETF Datatracker

@@ -1,0 +1,3 @@
+title: Join point
+id: 234409
+In computer science a join point is a point in the control flow of a program where the control flow can arrive via two different paths In particular it s a basic block that has more than one predecessor In aspect oriented programming a set of join points is called a pointcut A join point is a specification of when in the corresponding main program the aspect code should be executed br The join point is a point of execution in the base code where the advice specified in a corresponding pointcut is applied br br br See also br AspectJ an aspect oriented extension for the Java programming language br br br 

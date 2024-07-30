@@ -95,6 +95,8 @@ def word_topic_document(topic_id, word):
 
     docsContaining = {}
 
+    totalKeyWordCount = 0
+
     for k, v in chances.items():
         c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id) + " WHERE article_title = ?", (k,))
         results = c.fetchall()
@@ -109,19 +111,47 @@ def word_topic_document(topic_id, word):
             for x in content_words:
                 x = x.lower()
                 if x == word or word in x:
+                     totalKeyWordCount += 1
+                    
+
+            for x in content_words:
+                x = x.lower()
+                if x == word or word in x:
                     docsContaining[k] = v 
                     break
+
+
         
     for k,v in docsContaining.items():
         totalsum += v
 
     for k, v in docsContaining.items():
-        docsContaining[k] = str((v / totalsum)*100) + "%"
+        totalCount = 0
+        c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id) + " WHERE article_title = ?", (k,))
+        results = c.fetchall()
 
-    c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id) + " WHERE article_title = ?", (session.get('a_name'),))
-    results = c.fetchall()
-    article = results[0]
-    article_c = article[1]
+        word = word.lower()
+
+        if results:
+            content = results[0][1] 
+
+            content_words = content.split()
+
+            for x in content_words:
+                x = x.lower()
+                if x == word or word in x:
+                     totalCount += 1
+        docsContaining[k] = str(((v / totalsum)*100) * ((totalCount/totalKeyWordCount)*10)) + "%"
+
+    a_name = session.get('a_name')
+
+    c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id))
+    results = c.fetchall()[0]
+    
+    
+
+
+    article_c = results[1]
 
 
 
@@ -134,7 +164,7 @@ def word_topic_document(topic_id, word):
             article_sentence += x
             break
 
-    a_name = session.get('a_name')
+    
 
     a_name = a_name.split()[0]
 
@@ -187,7 +217,7 @@ def word_topic_document(topic_id, word):
 
     doc_sentence = highlight_sentences(doc_sentence, keyValues)
 
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     
 
 

@@ -1,0 +1,3 @@
+title: GNU Binutils
+id: 4464311
+The GNU Binary Utilities or binutils is a collection of programming tools maintained by the GNU Project for working with executable code including assembly linking and many other development operations br The tools are originally from Cygnus Solutions br The tools are typically used along with other GNU tools such as GNU Compiler Collection and the GNU Debugger br br br Tools br The tools include br br br elfutils br Ulrich Drepper wrote elfutils to partially replace GNU Binutils purely for Linux and with support only for ELF and DWARF It distributes three libraries with it for programmatic access br br br See also br br br br br br External links br Official website br The ELF Tool Chain Project the BSD license similar project mirror 

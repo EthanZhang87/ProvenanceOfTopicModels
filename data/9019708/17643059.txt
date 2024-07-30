@@ -1,0 +1,3 @@
+title: Ωmega
+id: 17643059
+The Omega interpreter is a strict pure functional programming interpreter similar to the Hugs Haskell interpreter The syntax closely resembles that of Haskell but with important differences br br Omega is strict Hugs is lazy br Ability to introduce new kinds br Allows writing of functions at the type level br Other differences are documented in the Omega user guide br Omega was developed by Prof Tim Sheard of Portland State University s Computer Science Department as a language with an infinite hierarchy of computational levels value type kind sort etc The underlying concept is that data and functions manipulating data can be introduced at any level br br br br br br External links br mega download page

@@ -1,0 +1,3 @@
+title: TrueCrypt version history
+id: 42510036
+TrueCrypt is based on Encryption for the Masses E M an open source on the fly encryption program first released in However E M was discontinued in as the author Paul Le Roux began working on commercial encryption software br br br Version history br br br See also br TrueCrypt br VeraCrypt br br br 

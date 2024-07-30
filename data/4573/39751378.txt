@@ -1,0 +1,3 @@
+title: MoarVM
+id: 39751378
+MoarVM Metamodel On A Runtime Virtual Machine is a virtual machine built for the model object system It is being built to serve as yet another VM backend for Raku MoarVM was created to allow for greater efficiency than Parrot by having a closer internal representation to the model system used by Raku Notably it was the virtual machine for the first stable version of Rakudo released in December br Work began on MoarVM on March the project was first publicly announced the following year on May br As of March it is the fastest virtual machine for Rakudo and NQP in terms of startup time and build speed br MoarVM is available under the Artistic License br br br br br br External links br Official website br MoarVM at GitHub

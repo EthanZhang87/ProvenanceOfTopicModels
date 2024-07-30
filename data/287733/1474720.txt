@@ -1,0 +1,3 @@
+title: Concrete Roman
+id: 1474720
+Concrete Roman is a slab serif typeface designed by Donald Knuth using his METAFONT program It was intended to accompany the Euler mathematical font which it partners in Knuth s book Concrete Mathematics It has a darker appearance than its more famous sibling Computer Modern Some favour it for use on the computer screen because of this as the thinner strokes of Computer Modern can make it hard to read at low resolutions br br br br br br External links br Computer Modern family for general use select otf fonts

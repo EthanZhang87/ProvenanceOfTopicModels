@@ -1,0 +1,3 @@
+title: Rcirc
+id: 18650538
+rcirc is an Internet Relay Chat IRC client written in Emacs Lisp It is one of two IRC clients included in GNU Emacs since release alongside ERC br Rcirc is compact written in a single file of less than lines of code It allocates separate buffers for each server and channel and includes tab completion and inbound message timestamps It allows opening new buffers for composing messages useful for multiline work All IRC commands are bound to control c command shortcuts Sound alerts are available for private messages and for when a user s nick is mentioned in channel br br br See also br br Comparison of IRC clients br br br br br br External links br rcirc at EmacsWiki

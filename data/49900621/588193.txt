@@ -1,0 +1,3 @@
+title: MOS (operating system)
+id: 588193
+Mobile Operating System MOS Russian is an operating system a Soviet clone of Unix from the s br br br Overview br This operating system is commonly found on SM EVM minicomputers it was also ported to ES EVM and Elbrus MOS is also used by high end PDP clones br Modifications of MOS include MNOS DEMOS INMOS etc br br br See also br List of Soviet computer systems br br br 

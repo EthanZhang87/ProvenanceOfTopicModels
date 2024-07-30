@@ -1,0 +1,3 @@
+title: Xar (graphics)
+id: 3282392
+The Xar file format is the fully specified vector graphics file format of Xara and Xara Photo Graphic Designer br br br External links br Xara homepage br Complete documentation of the XAR file format

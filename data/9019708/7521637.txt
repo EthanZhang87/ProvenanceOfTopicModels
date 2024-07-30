@@ -1,0 +1,3 @@
+title: House (operating system)
+id: 7521637
+House acronym for Haskell User s Operating System and Environment is an experimental open source operating system written in Haskell It was written to explore system programming in a functional programming language br It includes a graphical user interface several demos and its network protocol stack provides basic support for Ethernet IPv ARP DHCP ICMP ping UDP TFTP and TCP br br br br br br External links br Official website br A Principled Approach to Operating System Construction in Haskell technical paper on House details

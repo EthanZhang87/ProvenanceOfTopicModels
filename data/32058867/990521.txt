@@ -1,0 +1,3 @@
+title: Openswan
+id: 990521
+In the field of computer security Openswan provides a complete IPsec implementation for Linux and FreeBSD br Openswan begun as a fork of the now defunct FreeS WAN project continues to use the GNU General Public License Unlike the FreeS WAN project it does not exclusively target the Linux operating system br Libreswan forked from Openswan in br br br See also br br Libreswan br strongSwan br br br External links br Official website br Openswan on GitHub br br br 

@@ -1,0 +1,3 @@
+title: Tinix
+id: 21462386
+Tinix Try It as miNIX like operating system is a tutorial operating system OS written by Yu Yuan It is used to teach fundamentals rather than to do work In his book Writing OS DIY Yu provides all source code for Tinix br Tinix borrows many concepts and methods from Minix The book compensates for practical computer programming skills especially in x assembly language lacking in Andrew S Tanenbaum s book Operating Systems Design and Implementation br br br 

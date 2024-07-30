@@ -1,0 +1,3 @@
+title: Sentry 2020
+id: 8560647
+Sentry is a commercial software program for transparent disk encryption for PC and PDA It has two compatible versions one for desktop Windows XP and one for Windows Mobile which allows using the same encrypted volume on both platforms br The latest versions have been released in February Windows Vista is the newest OS supported br br br See also br LibreCrypt an alternative system which also works on both PC and PDAs br Disk encryption br Disk encryption software br Comparison of disk encryption software br br br br br br External links br Official Sentry Website

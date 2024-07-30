@@ -1,0 +1,3 @@
+title: PGPDisk
+id: 3884978
+PGP Virtual Disk is a disk encryption system that allows one to create a virtual encrypted disk within a file br Older versions for Windows NT were freeware for example bundled with PGP v i and with some of the CKT builds of PGP These are still available for download but no longer maintained Today PGP Virtual Disk is available as part of the PGP Desktop product family running on Windows XP Vista and Mac OS X br br br See also br Disk encryption software br Comparison of disk encryption software br United States v Boucher federal criminal case involving PGPDisk protected data

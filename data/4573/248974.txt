@@ -1,0 +1,3 @@
+title: Mozdev.org
+id: 248974
+mozdev org was a website that offered free project hosting and software development tools to the Mozilla community Site hosted extensions for Firefox Thunderbird and SeaMonkey and stand alone Mozilla based applications It was free to set up a project there but all development must have been done using a license approved by the OSI According to the site at one point it hosted over active projects It was shut down in July and currently redirects to mozilla org br br br See also br Mozilla Foundation br MDN Web Docs br br br 
