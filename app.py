@@ -3,6 +3,7 @@ from markupsafe import Markup
 import os, re
 import wikipedia as wp
 import topic
+from collections import OrderedDict
 import download
 import sqlite3 as sql
 import matplotlib.pyplot as plt
@@ -141,14 +142,16 @@ def word_topic_document(topic_id, word):
                 x = x.lower()
                 if x == word or word in x:
                      totalCount += 1
-        docsContaining[k] = str(((v / totalsum)*100) * ((totalCount/totalKeyWordCount)*10)) + "%"
+        docsContaining[k] = (((v / totalsum)*100) * ((totalCount/totalKeyWordCount))) 
+
+    docsContaining = {k: v for k, v in sorted(docsContaining.items(), key=lambda item: item[1], reverse=True)}
 
     a_name = session.get('a_name')
 
     c.execute("SELECT article_title, article_content FROM documents_" + str(download.main_page_id))
     results = c.fetchall()[0]
     
-    
+
 
 
     article_c = results[1]
